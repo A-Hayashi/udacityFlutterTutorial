@@ -26,17 +26,51 @@ class CategoryRoute extends StatelessWidget {
     Colors.red,
   ];
 
+  const CategoryRoute({Key? key}) : super(key: key);
+
+  Widget _buildCategoryWidgets(List<Widget> categories) {
+    return ListView.builder(
+      itemBuilder: (BuildContext contect, int index) => categories[index],
+      itemCount: categories.length,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final categories = <MyCategory>[];
 
+    for (var i = 0; i < _categoryNames.length; i++) {
+      categories.add(
+        MyCategory(
+          caterogyName: _categoryNames[i],
+          categoryColor: _baseColors[i] as ColorSwatch,
+          categoryIcon: Icons.cake,
+        ),
+      );
+    }
+
+    final listView = Container(
+      color: _backgroundColor,
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: _buildCategoryWidgets(categories),
+    );
+
     final appBar = AppBar(
-      title: Text('Unit Converter'),
+      elevation: 0,
+      title: const Text(
+        'Unit Converter',
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 30,
+        ),
+      ),
+      centerTitle: true,
+      backgroundColor: _backgroundColor,
     );
 
     return Scaffold(
       appBar: appBar,
-      body: Text('asaa'),
+      body: listView,
     );
   }
 }
