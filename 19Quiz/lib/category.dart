@@ -1,16 +1,43 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:myapp/converter_route.dart';
+import 'unit.dart';
 
 class MyCategory extends StatelessWidget {
   final String caterogyName;
   final ColorSwatch categoryColor;
   final IconData categoryIcon;
+  final List<Unit> units;
 
   const MyCategory({
     Key? key,
     required this.caterogyName,
     required this.categoryColor,
     required this.categoryIcon,
+    required this.units,
   }) : super(key: key);
+
+  void _navigateToConverter(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(
+          elevation: 1,
+          title: Text(
+            caterogyName,
+            style: Theme.of(context).textTheme.headline4,
+          ),
+          centerTitle: true,
+          backgroundColor: categoryColor,
+        ),
+        body: ConverterRoute(
+          color: categoryColor,
+          units: units,
+        ),
+      );
+    }));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +55,7 @@ class MyCategory extends StatelessWidget {
               onTap: () {
                 // ignore: avoid_print
                 print('I was tapped!');
+                _navigateToConverter(context);
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
