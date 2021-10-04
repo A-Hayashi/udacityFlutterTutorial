@@ -4,7 +4,16 @@ import 'unit.dart';
 
 final _backgroundColor = Colors.green[100];
 
-class CategoryRoute extends StatelessWidget {
+class CategoryRoute extends StatefulWidget {
+  const CategoryRoute({Key? key}) : super(key: key);
+
+  @override
+  _CategoryRouteState createState() => _CategoryRouteState();
+}
+
+class _CategoryRouteState extends State<CategoryRoute> {
+  final _categories = <MyCategory>[];
+
   static const _categoryNames = <String>[
     'Length',
     'Area',
@@ -27,7 +36,20 @@ class CategoryRoute extends StatelessWidget {
     Colors.red,
   ];
 
-  const CategoryRoute({Key? key}) : super(key: key);
+  @override
+  void initState() {
+    super.initState();
+    for (var i = 0; i < _categoryNames.length; i++) {
+      _categories.add(
+        MyCategory(
+          caterogyName: _categoryNames[i],
+          categoryColor: _baseColors[i] as ColorSwatch,
+          categoryIcon: Icons.cake,
+          units: _retrieveUnitList(_categoryNames[i]),
+        ),
+      );
+    }
+  }
 
   Widget _buildCategoryWidgets(List<Widget> categories) {
     return ListView.builder(
@@ -48,23 +70,10 @@ class CategoryRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final categories = <MyCategory>[];
-
-    for (var i = 0; i < _categoryNames.length; i++) {
-      categories.add(
-        MyCategory(
-          caterogyName: _categoryNames[i],
-          categoryColor: _baseColors[i] as ColorSwatch,
-          categoryIcon: Icons.cake,
-          units: _retrieveUnitList(_categoryNames[i]),
-        ),
-      );
-    }
-
     final listView = Container(
       color: _backgroundColor,
       padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: _buildCategoryWidgets(categories),
+      child: _buildCategoryWidgets(_categories),
     );
 
     final appBar = AppBar(
