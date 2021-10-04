@@ -38,7 +38,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          print('I was pressed!');
+          // setState(() {
           _counter++;
+          // });
         },
         child: Icon(Icons.add),
       ),
